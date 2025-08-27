@@ -77,8 +77,8 @@ pipeline {
        
         stage('Push Image') {
            steps {
-               sh 'docker tag python-app:latest yourdockerhubuser/python-app:latest'
-               sh 'docker push yourdockerhubuser/python-app:latest'
+               sh 'docker tag python-app:latest $DOCKER_USER/python-app:latest'
+               sh 'docker push $DOCKER_USER/python-app:latest'
     }
 }
 
