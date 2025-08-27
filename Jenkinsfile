@@ -7,7 +7,7 @@ pipeline {
     }
 
     triggers {
-        githubPush() // Trigger pipeline on push
+        pollSCM('* * * * *')
     }
 
     stages {
@@ -17,7 +17,15 @@ pipeline {
             }
         }
 
-
+     stage('Login to Docker Hub') {
+        steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-cred', 
+                                          usernameVariable: 'DOCKER_USER', 
+                                          passwordVariable: 'DOCKER_PASS')]) {
+            sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+        }
+    }
+}
 		stage('Build Docker Image') {
             steps {
                 script {
@@ -65,6 +73,14 @@ pipeline {
             }
         }
     }
+
+       
+        stage('Push Image') {
+           steps {
+               sh 'docker tag python-app:latest yourdockerhubuser/python-app:latest'
+               sh 'docker push yourdockerhubuser/python-app:latest'
+    }
+}
 
     post {
         always {
