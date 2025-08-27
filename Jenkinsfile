@@ -31,11 +31,13 @@ pipeline {
             steps {
                 script {
                     // Stop and remove old container if exists
-                    sh 
+                    sh """
                     if [ \$(docker ps -aq -f name=${CONTAINER_NAME}) ]; then
                         echo "Removing old container..."
                         docker rm -f ${CONTAINER_NAME} || true
                     fi
+
+		    """
            
                     // Run new container
                     sh "docker run --name ${CONTAINER_NAME} -d ${IMAGE_NAME}:latest"
