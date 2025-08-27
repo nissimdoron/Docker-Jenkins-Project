@@ -50,10 +50,10 @@ pipeline {
                 script {
                     sleep 20
 
-                    def containerStatus = sh
-                        (script: "docker ps -q -f name=${CONTAINER_NAME}",
-                        returnStdout: true)   
-				  .trim()
+                    def containerStatus = sh( 
+                        script: "docker ps -q -f name=${CONTAINER_NAME}",
+                        returnStdout: true   
+	            ).trim()
 
                     if (containerStatus) {
                         echo "Container is still running after 20s. Test Failed."
