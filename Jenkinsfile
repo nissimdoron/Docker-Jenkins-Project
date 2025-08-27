@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "python-app"
         CONTAINER_NAME = "python-app-container"
+        PATH = "/usr/local/bin:/usr/bin:/bin"
     }
 
     triggers {
