@@ -74,14 +74,6 @@ pipeline {
         }
     }
 
-       
-        stage('Push Image') {
-           steps {
-               sh 'docker tag python-app:latest $DOCKER_USER/python-app:latest'
-               sh 'docker push $DOCKER_USER/python-app:latest'
-    }
-}
-
     post {
         always {
             sh "docker ps -a"
