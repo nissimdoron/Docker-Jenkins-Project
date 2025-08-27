@@ -30,7 +30,7 @@ pipeline {
 		stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    sh "docker build -t ${IMAGE_NAME}:3.11-slim ."
                 }
             }
         }
