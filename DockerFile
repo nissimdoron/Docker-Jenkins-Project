@@ -34,7 +34,7 @@ COPY . .
 ENV DISPLAY=:0
 
 # Default command to run your app
-CMD ["python", "app.py"]
+ENTRYPOINT ["python", "app.py"]
 
 # Copy the test script
 COPY test.sh .
