@@ -49,7 +49,7 @@ pipeline {
 		    """
            
                     // Run new container
-                    sh "docker run --name ${CONTAINER_NAME} -d ${IMAGE_NAME}:latest"
+                    sh "docker run --name ${CONTAINER_NAME} -d ${IMAGE_NAME}:3.11-slim"
                 }
             }
         }
