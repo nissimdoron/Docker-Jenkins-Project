@@ -1,7 +1,10 @@
-# Use an official lightweight Python base image
+# Use official Python base image
 FROM python:3.11-slim
 
-# Install dependencies for tkinter and X11 forwarding (if needed)
+# Prevent tzdata or debconf from asking interactive questions
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies (for tkinter + evdev)
 RUN apt-get update && apt-get install -y \
     python3-tk \
     tk \
@@ -10,27 +13,25 @@ RUN apt-get update && apt-get install -y \
     libxrender1 \
     libxext6 \
     libxi6 \
+    build-essential \
+    python3-dev \
+    libevdev-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Set work directory
 WORKDIR /app
 
-# Copy requirements file first (for better layer caching)
+# Copy dependency list
 COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Copy project files
 COPY . .
 
-# Ensure test script is executable
-RUN chmod +x test.sh
-
-# Set display environment variable (used for X11)
-ENV DISPLAY=:0
-
-# Default command: run test script (which sleeps 10s)
-CMD ["./test.sh"]
+# Default command (you can change this)
+CMD ["python", "app.py"]
 
