@@ -57,12 +57,14 @@ pipeline {
         stage('Wait and Check') {
             steps {
                 script {
-                    sleep 20
+                    sleep 20   //tells jenkins to wait to let container to run with it's image
 
                     def containerStatus = sh( 
                         script: "docker ps -q -f name=${CONTAINER_NAME}",
                         returnStdout: true   
-	            ).trim()
+	            ).trim() //removes spaces from results
+		   
+                   //Runs shell commands in jenkins and shows only the container we filtered "-q" shows only cont ID "-f" filters container
 
                     if (containerStatus) {
                         echo "Container is still running after 20s. Test Failed."
